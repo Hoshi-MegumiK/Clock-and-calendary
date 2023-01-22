@@ -1,0 +1,31 @@
+import tkinter
+import tkinter as tk
+from tkinter import ttk
+from datetime import datetime
+
+def mostrar_reloj():
+    ventana_reloj = tk.Toplevel()
+    ventana_reloj.title("Reloj")
+    etiqueta_reloj = tk.Label(ventana_reloj, font=("Arial", 30))
+    etiqueta_reloj.pack()
+
+    def actualizar_reloj():
+        hora_actual = datetime.now().strftime("%H:%M:%S")
+        etiqueta_reloj.config(text=hora_actual)
+        etiqueta_reloj.after(1000, actualizar_reloj)
+
+    actualizar_reloj()
+
+def mostrar_calendario():
+    ventana_calendario = tk.Toplevel()
+    ventana_calendario.title("Calendario")
+    calendario = ttk.Calendar(ventana_calendario)
+    calendario.pack()
+
+# Ventana principal
+ventana_principal = tk.Tk()
+boton_reloj = tk.Button(ventana_principal, text="Ver reloj", command=mostrar_reloj)
+boton_reloj.pack()
+boton_calendario = tk.Button(ventana_principal, text="Ver calendario", command=mostrar_calendario)
+boton_calendario.pack()
+ventana_principal.mainloop()
