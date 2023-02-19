@@ -1,0 +1,44 @@
+import time
+import pygame
+import tkinter as tk
+from tkinter import ttk
+from datetime import datetime
+
+def alarm():
+    pygame.init()
+    pygame.mixer.music.load("alarm.wav")
+    pygame.mixer.music.play()
+    time.sleep(60) # la alarma sonará por 60 segundos
+    pygame.mixer.music.stop()
+
+def set_alarm(*args):
+    global wake_time
+    wake_time = time_entry.get()
+    wake_time = datetime.strptime(wake_time, "%H:%M").time()
+
+root = tk.Tk()
+root.title("Alarma para despertar")
+
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky="N S W E")
+
+time_entry = ttk.Entry(mainframe, width=5)
+time_entry.grid(column=2, row=1, sticky="W")
+
+ttk.Label(mainframe, text="HH:MM").grid(column=1, row=1, sticky="W")
+ttk.Button(mainframe, text="Set Alarm", command=set_alarm).grid(column=3, row=1)
+
+for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
+
+root.bind('<Return>', set_alarm)
+
+time_entry.focus()
+root.mainloop()
+
+while True:
+    now = datetime.now().time()
+    if now == wake_time:
+        print("Wake up!")
+        alarm()
+        break
+    time.sleep(1)
